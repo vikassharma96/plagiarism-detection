@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.StringTokenizer;
 import java.util.stream.Collectors;
 
 public class Main extends Utils {
@@ -16,7 +17,7 @@ public class Main extends Utils {
     private static BufferedReader bufferedReader;
 
     public static void main(String[] args) {
-        // listAllFiles();
+//         listAllFiles();
         longestCommonSubsequence();
     }
 
@@ -81,7 +82,7 @@ public class Main extends Utils {
                     if (i == j) singleLinePrint("  100  |");
                     else {
                         singleLinePrint("   " +
-                                stringMatchPercent(fileData[i], fileData[j]) +
+                                stringMatchPercent(prepareCode(fileData[i]), prepareCode(fileData[j])) +
                                 "  |");
                     }
                 }
@@ -110,5 +111,21 @@ public class Main extends Utils {
             }
         }
         return (int) (((float) L[m][n] / Math.min(m, n)) * 100);
+    }
+
+    private final static String SEPARATION_CHARS = " \n+-*/=<>.;[](){}";
+
+    private static String prepareCode(String s1) {
+        StringTokenizer st = new StringTokenizer(s1, SEPARATION_CHARS, true);
+        StringBuffer sb = new StringBuffer();
+        while (st.hasMoreTokens()) {
+            String toki = st.nextToken();
+            if (SEPARATION_CHARS.contains(toki)) {
+                sb.append(toki);
+            } else {
+                sb.append("_");
+            }
+        }
+        return sb.toString();
     }
 }
